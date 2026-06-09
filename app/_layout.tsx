@@ -5,13 +5,14 @@ import {
 import { Stack } from "expo-router";
 import "./global.css";
 
-
 export default function RootLayout() {
   const queryClient = new QueryClient()
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Stack />
+        <Stack>
+          <Stack.Screen name='(tabs)' options={{ headerShown: false, title: "Home" }} />
+        </Stack>
       </QueryClientProvider>
     </>
   )
