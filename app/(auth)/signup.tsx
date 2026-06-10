@@ -1,10 +1,54 @@
-import { Link } from 'expo-router'
-import React from 'react'
+import { signup } from '@/api/signup'
+import { signupSchema, SignupSchemaType } from '@/schemas/signup-schema'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Link, router } from 'expo-router'
+import React, { useState } from 'react'
+import { Controller, useForm } from "react-hook-form"
 import { Pressable, Text, TextInput, View } from 'react-native'
-
+import { Snackbar } from "react-native-paper"
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 export default function SignupScreen() {
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<SignupSchemaType>({
+        defaultValues: {
+            username: "",
+            email: "",
+            password: "",
+        },
+        resolver: zodResolver(signupSchema),
+    })
+    const onSubmit = async (data: SignupSchemaType) => {
+        try {
+            const res = await signup(data);
+            console.log(res);
+
+            setSnackbarMessage("Account created successfully");
+            setSnackbarVisible(true);
+
+            reset();
+
+            setTimeout(() => {
+                router.replace("/login");
+            }, 1500);
+        } catch (error) {
+            setSnackbarMessage(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to create account"
+            );
+            setSnackbarVisible(true);
+        }
+    };
+
     return (
         <SafeAreaProvider>
             <SafeAreaView className='auth_container'>
@@ -16,27 +60,92 @@ export default function SignupScreen() {
                         Join us and start your journey today
                     </Text>
                 </View>
-                <View className="w-full gap-y-4 px-4 mb-4">
-                    <TextInput
-                        className="auth_input"
-                        placeholder="Username"
-                        keyboardAppearance='default'
+                <View className="w-full gap-y-4 mb-4">
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                className='auth_input'
+                                placeholder="username"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="username"
                     />
-                    <TextInput
-                        className="auth_input"
-                        placeholder="Email"
-                        keyboardType="email-address"
+                    {errors.username && (
+                        <Text className="auth_input_error">
+                            {errors.username.message}
+                        </Text>
+                    )}
+
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                className='auth_input'
+                                placeholder="Email address"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                keyboardType="email-address"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="email"
                     />
-                    <TextInput
-                        className="auth_input"
-                        placeholder="password"
-                        keyboardType="visible-password"
-                    />
-                    <Pressable className="auth_button">
+
+                    {errors.email && (
+                        <Text className="auth_input_error">
+                            {errors.email.message}
+                        </Text>
+                    )}
+                    <View className="relative">
+                        <Controller
+                            control={control}
+                            name="password"
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    className="auth_input pr-20"
+                                    placeholder="password"
+                                    secureTextEntry={!showPassword}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
+                        />
+
+                        <Pressable
+                            onPress={() => setShowPassword(prev => !prev)}
+                            className="absolute right-3 top-3"
+                        >
+                            <Pressable
+                                onPress={() => setShowPassword(prev => !prev)}
+                                className="absolute right-3 top-0"
+                            >
+                                <MaterialCommunityIcons
+                                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                    size={24}
+                                    color="#6366f1"
+                                />
+                            </Pressable>
+                        </Pressable>
+                    </View>
+                    <Pressable className="auth_button" onPress={handleSubmit(onSubmit)}>
                         <Text className="auth_button_text">
                             Sign Up
                         </Text>
                     </Pressable>
+
                 </View>
                 <View className="self-end gap-x-2 my-2 mx-6">
                     <Text className="text-slate-400">
@@ -46,6 +155,13 @@ export default function SignupScreen() {
                         </Link>
                     </Text>
                 </View>
+                <Snackbar
+                    visible={snackbarVisible}
+                    onDismiss={() => setSnackbarVisible(false)}
+                    duration={1500}
+                >
+                    {snackbarMessage}
+                </Snackbar>
             </SafeAreaView>
         </SafeAreaProvider>
     )
