@@ -128,7 +128,11 @@ export default function SignupScreen() {
                                 />
                             )}
                         />
-
+                        {errors.password && (
+                            <Text className="auth_input_error">
+                                {errors.password.message}
+                            </Text>
+                        )}
                         {watchPassword.length > 0 &&
                             <Pressable
                                 onPress={() => setShowPassword(prev => !prev)}
