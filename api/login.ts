@@ -1,10 +1,10 @@
-import { SignupSchemaType } from "@/schemas/signup-schema";
+import { LoginSchemaType } from "@/schemas/login-schema";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const signup = async (data: SignupSchemaType) => {
+export const login = async (data: LoginSchemaType) => {
     try {
-        const response = await fetch(`${API_URL}/api/auth/register`, {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -18,15 +18,16 @@ export const signup = async (data: SignupSchemaType) => {
             success: response.ok,
             message:
                 result.message ??
-                (response.ok ? "Registration successful" : "Registration failed"),
+                response.statusText ??
+                (response.ok ? "Login successful" : "Login failed"),
             data: result,
         };
     } catch (error) {
-        console.error("Signup error:", error);
+        console.error("Login error:", error);
 
         return {
             success: false,
-            message: "Unable to connect to server",
+            message: "Network request failed",
             data: null,
         };
     }

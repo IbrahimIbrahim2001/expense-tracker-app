@@ -34,7 +34,10 @@ export default function SignupScreen() {
     const onSubmit = async (data: SignupSchemaType) => {
         try {
             const res = await signup(data);
-            console.log(res);
+
+            if (!res.success) {
+                throw new Error(res.message);
+            }
 
             setSnackbarMessage("Account created successfully");
             setSnackbarVisible(true);
