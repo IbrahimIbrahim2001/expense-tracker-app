@@ -1,5 +1,7 @@
 import { login } from '@/api/login'
+import { saveToken } from '@/lib/token'
 import { loginSchema, LoginSchemaType } from '@/schemas/login-schema'
+import { useAuthStore } from '@/store/auth-store'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, router } from 'expo-router'
@@ -13,6 +15,7 @@ export default function LoginScreen() {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const setUser = useAuthStore((s) => s.login);
     const {
         control,
         handleSubmit,
@@ -37,6 +40,13 @@ export default function LoginScreen() {
             if (!res.success) {
                 throw new Error(res.message);
             }
+
+            // save token
+            await saveToken(res.data.token);
+
+            // save user
+            setUser(res.data.user);
+
 
             setSnackbarMessage(res.message);
             setSnackbarVisible(true);
