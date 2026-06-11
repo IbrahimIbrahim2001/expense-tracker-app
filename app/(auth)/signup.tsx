@@ -4,7 +4,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, router } from 'expo-router'
 import React, { useState } from 'react'
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import { Pressable, Text, TextInput, View } from 'react-native'
 import { Snackbar } from "react-native-paper"
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
@@ -17,7 +17,7 @@ export default function SignupScreen() {
         control,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<SignupSchemaType>({
         defaultValues: {
             username: "",
@@ -25,6 +25,11 @@ export default function SignupScreen() {
             password: "",
         },
         resolver: zodResolver(signupSchema),
+    })
+
+    const watchPassword = useWatch({
+        control,
+        name: "password",
     })
     const onSubmit = async (data: SignupSchemaType) => {
         try {
@@ -124,13 +129,10 @@ export default function SignupScreen() {
                             )}
                         />
 
-                        <Pressable
-                            onPress={() => setShowPassword(prev => !prev)}
-                            className="absolute right-3 top-3"
-                        >
+                        {watchPassword.length > 0 &&
                             <Pressable
                                 onPress={() => setShowPassword(prev => !prev)}
-                                className="absolute right-3 top-0"
+                                className="absolute right-3 top-3"
                             >
                                 <MaterialCommunityIcons
                                     name={showPassword ? "eye-off-outline" : "eye-outline"}
@@ -138,11 +140,11 @@ export default function SignupScreen() {
                                     color="#6366f1"
                                 />
                             </Pressable>
-                        </Pressable>
+                        }
                     </View>
                     <Pressable className="auth_button" onPress={handleSubmit(onSubmit)}>
                         <Text className="auth_button_text">
-                            Sign Up
+                            {isSubmitting ? "Loading..." : "Sign Up"}
                         </Text>
                     </Pressable>
 
