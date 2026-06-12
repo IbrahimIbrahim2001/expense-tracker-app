@@ -2,7 +2,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Icon, Label, NativeTabs, VectorIcon } from 'expo-router/unstable-native-tabs';
 export default function TabsLayout() {
     return (
-        <NativeTabs >
+        <NativeTabs backgroundColor={"#162544"} tintColor="#ff8c42"
+        >
             <NativeTabs.Trigger name="index" options={{ title: "Home" }}>
                 <Label>Home</Label>
                 <Icon
