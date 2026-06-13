@@ -4,8 +4,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { PaperProvider } from "react-native-paper";
 import "./global.css";
@@ -35,6 +34,8 @@ export default function RootLayout() {
   if (!ready || !hydrated) {
     return null;
   }
+
+  // const isAuthenticated = true;
 
   return (
     <PaperProvider>
