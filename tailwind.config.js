@@ -109,6 +109,7 @@ module.exports = {
           travel: "#6366f1",
           groceries: "#84cc16",
           other: "#78716c",
+          salary: "#10b981"
         },
       },
     },

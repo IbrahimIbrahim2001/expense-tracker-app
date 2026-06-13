@@ -8,8 +8,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
     return (
-        <SafeAreaView className='flex-1 bg-[#2a4b8c]' >
-            <ScrollView contentContainerClassName="flex items-start justify-start m-8">
+        <SafeAreaView className="flex-1 bg-[#2a4b8c]">
+            <ScrollView
+                className="flex-1"
+                contentContainerClassName="p-8 pb-28"
+                showsVerticalScrollIndicator={false}
+            >
                 {/* Header */}
                 <Header />
                 {/* filter section (Horizontal Scroll)*/}
