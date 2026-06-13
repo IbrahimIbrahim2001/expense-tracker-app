@@ -7,20 +7,20 @@ export default function IncomeAndSpentChart() {
                 <View>
                     <View className="flex-row items-center gap-1">
                         <View className="h-6 w-2 bg-income-700 rounded-full" />
-                        <Text className="text-lg opacity-90">
+                        <Text className="text-white text-lg opacity-90">
                             Income
                         </Text>
                     </View>
-                    <Text className='text-3xl font-semibold pl-3'>300$</Text>
+                    <Text className='text-white text-3xl font-semibold pl-3'>300$</Text>
                 </View>
                 <View>
                     <View className="flex-row items-center gap-1">
                         <View className="h-6 w-2 bg-expense-700 rounded-full" />
-                        <Text className="text-lg opacity-90">
+                        <Text className="text-white  text-lg opacity-90">
                             Spent
                         </Text>
                     </View>
-                    <Text className='text-3xl font-semibold pl-3'>250$</Text>
+                    <Text className='text-white text-3xl font-semibold pl-3'>250$</Text>
                 </View>
             </View>
             <Text>Chart</Text>

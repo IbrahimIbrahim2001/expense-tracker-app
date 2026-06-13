@@ -53,18 +53,18 @@ export const MockItems: transactionItem[] = [
     }
 ];
 
-export const categoryBgClasses: Record<string, string> = {
-    food: "bg-category-food",
-    transport: "bg-category-transport",
-    shopping: "bg-category-shopping",
-    bills: "bg-category-bills",
-    entertainment: "bg-category-entertainment",
-    health: "bg-category-health",
-    education: "bg-category-education",
-    travel: "bg-category-travel",
-    groceries: "bg-category-groceries",
-    salary: "bg-category-salary",
-    other: "bg-category-other",
+export const categoryColors: Record<string, string> = {
+    food: "#f97316",
+    transport: "#3b82f6",
+    shopping: "#ec4899",
+    bills: "#64748b",
+    entertainment: "#a855f7",
+    health: "#22c55e",
+    education: "#06b6d4",
+    travel: "#6366f1",
+    groceries: "#84cc16",
+    salary: "#10b981",
+    other: "#78716c",
 };
 
 export const categoryIcons: Record<string, keyof typeof Ionicons.glyphMap> = {
