@@ -12,6 +12,24 @@ export default function TabsLayout() {
                 />
 
             </NativeTabs.Trigger>
+            <NativeTabs.Trigger
+                name="add-transaction"
+                options={{ title: "Add", }}
+            >
+                <Icon
+                    sf={{
+                        default: "plus.circle",
+                        selected: "plus.circle.fill",
+                    }}
+                    androidSrc={
+                        <VectorIcon
+                            family={MaterialCommunityIcons}
+                            name="plus-circle"
+                        />
+                    }
+                />
+                <Label>Add</Label>
+            </NativeTabs.Trigger>
             <NativeTabs.Trigger name="settings" options={{ title: "Settings" }}>
                 <Icon
                     sf={{ default: "gearshape", selected: "gearshape.fill" }}
