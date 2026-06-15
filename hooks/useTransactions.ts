@@ -2,6 +2,8 @@ import { getTransactions } from "@/api/get-transactions";
 import { transactionItem } from "@/types/transactions-item";
 import { useQuery } from "@tanstack/react-query";
 
+export const RECENT_TRANSACTIONS_LIMIT = 5
+
 export const useTransactions = (limit?: number) => {
     return useQuery<transactionItem[]>({
         queryKey: ["transactions", limit],

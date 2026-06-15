@@ -1,4 +1,4 @@
-import { useTransactions } from '@/hooks/useTransactions';
+import { RECENT_TRANSACTIONS_LIMIT, useTransactions } from '@/hooks/useTransactions';
 import { router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
@@ -6,7 +6,7 @@ import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
 export default function RecentTransactions() {
-    const { data: transactions, isLoading, isError } = useTransactions(5);
+    const { data: transactions, isLoading, isError } = useTransactions(RECENT_TRANSACTIONS_LIMIT);
 
     return (
         <View className='gap-y-4'>
