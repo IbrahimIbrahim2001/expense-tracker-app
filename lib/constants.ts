@@ -6,7 +6,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "1",
         category: "food",
-        amount: "8",
+        amount: 8,
         type: "expense",
         payement_way: "card",
         createdAt: new Date("2026-08-08T12:00:00.000Z")
@@ -14,7 +14,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "2",
         category: "transport",
-        amount: "12",
+        amount: 12,
         type: "expense",
         payement_way: "cash",
         createdAt: new Date("2026-08-08T12:00:00.000Z")
@@ -22,7 +22,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "3",
         category: "salary",
-        amount: "1000",
+        amount: 1000,
         type: "income",
         payement_way: "bank account",
         createdAt: new Date("2026-08-08T12:00:00.000Z")
@@ -30,7 +30,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "4",
         category: "shopping",
-        amount: "250",
+        amount: 250,
         type: "expense",
         payement_way: "card",
         createdAt: new Date("2026-08-09T10:30:00.000Z")
@@ -38,7 +38,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "5",
         category: "entertainment",
-        amount: "40",
+        amount: 40,
         type: "expense",
         payement_way: "cash",
         createdAt: new Date("2026-08-10T18:00:00.000Z")
@@ -46,7 +46,7 @@ export const MockItems: transactionItem[] = [
     {
         _id: "6",
         category: "salary",
-        amount: "1200",
+        amount: 1200,
         type: "income",
         payement_way: "bank account",
         createdAt: new Date("2026-08-11T09:00:00.000Z")
