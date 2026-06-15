@@ -1,10 +1,12 @@
-import { MockItems } from '@/lib/constants';
+import { useTransactions } from '@/hooks/useTransactions';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
 export default function RecentTransactions() {
+    const { data: transactions, isLoading, isError } = useTransactions(5);
+
     return (
         <View className='gap-y-4'>
             <View className='w-full flex flex-row justify-between items-center'>
@@ -16,11 +18,16 @@ export default function RecentTransactions() {
                     <Ionicons name="chevron-forward" size={12} color={"white"} />
                 </View>
             </View>
-            {/* Transactions Items */}
-            <FlashList
-                data={MockItems}
-                renderItem={({ item }) => <TransactionsItem item={item} />}
-            />
+            {isLoading ? (
+                <ActivityIndicator color="#fff" className="py-8" />
+            ) : isError ? (
+                <Text className="text-red-400 text-center py-8">Failed to load transactions</Text>
+            ) : (
+                <FlashList
+                    data={transactions}
+                    renderItem={({ item }) => <TransactionsItem item={item} />}
+                />
+            )}
         </View >
     )
 }

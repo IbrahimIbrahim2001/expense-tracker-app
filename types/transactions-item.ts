@@ -3,6 +3,6 @@ export interface transactionItem {
     category: string;
     amount: number;
     type: "expense" | "income";
-    payement_way: string;
+    payment_way: string;
     createdAt: Date;
 }

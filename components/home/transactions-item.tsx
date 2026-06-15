@@ -22,15 +22,15 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
                     <Text className='capitalize  text-lg font-medium'>
                         {item.category}
                     </Text>
-                    <Text className='text-white text-md opacity-50'>
-                        {item.payement_way}
+                    <Text className='text-white text-md opacity-50 capitalize'>
+                        {item.payment_way}
                     </Text>
                 </View>
             </View>
             <View>
                 <Text className={`text-lg self-end font-medium ${amountColor}`}> {isExpenses ? "-" : "+"}{item.amount}$</Text>
                 <Text className='text-white text-md opacity-50'>
-                    {item.createdAt.toLocaleDateString("en-US", {
+                    {new Date(item.createdAt).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
