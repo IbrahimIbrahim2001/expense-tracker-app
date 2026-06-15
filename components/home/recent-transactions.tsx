@@ -1,7 +1,8 @@
 import { useTransactions } from '@/hooks/useTransactions';
+import { router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
 export default function RecentTransactions() {
@@ -11,12 +12,15 @@ export default function RecentTransactions() {
         <View className='gap-y-4'>
             <View className='w-full flex flex-row justify-between items-center'>
                 <Text className='text-white opacity-70 text-md'>Recent Transactions</Text>
-                <View className={`flex flex-row gap-x-2 items-center h-10 px-3 border rounded-3xl border-primary-500/50`}>
+                <Pressable
+                    className='flex flex-row gap-x-2 items-center h-10 px-3 border rounded-3xl border-primary-500/50'
+                    onPress={() => router.push("/transactions" as any)}
+                >
                     <Text className="text-white/70 text-sm">
                         See All
                     </Text>
                     <Ionicons name="chevron-forward" size={12} color={"white"} />
-                </View>
+                </Pressable>
             </View>
             {isLoading ? (
                 <ActivityIndicator color="#fff" className="py-8" />
