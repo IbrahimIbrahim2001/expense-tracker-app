@@ -1,7 +1,9 @@
+import { useAuthStore } from '@/store/auth-store';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text, View } from 'react-native';
 
 export default function Header() {
+    const user = useAuthStore(s => s.user);
     return (
         <View className='w-full flex flex-row justify-between items-center'>
             {/* Hello user section */}
@@ -10,7 +12,7 @@ export default function Header() {
                     Hello,
                 </Text>
                 <Text className="text-4xl font-bold text-white">
-                    Ibrahim
+                    {user?.username ?? "User"}
                 </Text>
             </View>
             {/* Icon section */}
