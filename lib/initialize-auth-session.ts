@@ -17,8 +17,6 @@ export const initializeAuthSession = async () => {
 
         const res = await getCurrentUser(token);
 
-        console.log(res);
-
         if (res.success && res.data) {
             setUser(res.data);
             return true;

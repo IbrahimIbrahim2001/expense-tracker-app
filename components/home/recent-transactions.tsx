@@ -1,5 +1,6 @@
 import { MockItems } from '@/lib/constants';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { FlashList } from "@shopify/flash-list";
 import { Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
@@ -16,9 +17,10 @@ export default function RecentTransactions() {
                 </View>
             </View>
             {/* Transactions Items */}
-            {MockItems.map((item) => (
-                <TransactionsItem key={item._id} item={item} />
-            ))}
+            <FlashList
+                data={MockItems}
+                renderItem={({ item }) => <TransactionsItem item={item} />}
+            />
         </View >
     )
 }

@@ -13,7 +13,7 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
     const isExpenses = item.type === "expense";
     const amountColor = isExpenses ? "text-red-500" : "text-green-400";
     return (
-        <View className='flex flex-row justify-between items-center'>
+        <View className='flex flex-row justify-between items-center my-2'>
             <View className='flex flex-row gap-x-3'>
                 <View className="size-16 rounded-xl items-center justify-center" style={{ backgroundColor: bgColor }}>
                     <Ionicons name={iconName} size={28} color={"white"} />
