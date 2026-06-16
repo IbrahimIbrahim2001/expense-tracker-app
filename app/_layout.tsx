@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from "react-native-paper";
 import "./global.css";
 export default function RootLayout() {
@@ -36,6 +37,7 @@ export default function RootLayout() {
   }
 
   return (
+    <GestureHandlerRootView className="flex-1">
     <PaperProvider>
       <QueryClientProvider client={queryClient}>
         <Stack>
@@ -49,5 +51,6 @@ export default function RootLayout() {
         </Stack>
       </QueryClientProvider>
     </PaperProvider>
+    </GestureHandlerRootView>
   )
 }
