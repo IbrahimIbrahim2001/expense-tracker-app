@@ -24,10 +24,10 @@ export default function AddTransactionForm() {
     } = useForm<TransactionSchemaType>({
         defaultValues: {
             category: undefined,
-            amount: 0,
+            amount: "",
             type: "expense",
             payment_way: "cash",
-        } as any,
+        },
         resolver: zodResolver(transactionSchema),
     })
 

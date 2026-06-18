@@ -47,14 +47,14 @@ export default function EditTransaction({ item, bottomSheetModalRef, onChange }:
         handleSubmit,
         setValue,
         watch,
-        formState: { errors },
+        formState: { errors, isDirty },
     } = useForm<UpdateTransactionSchemaType>({
         defaultValues: {
             category: item.category,
             amount: String(item.amount),
             type: item.type,
             payment_way: item.payment_way,
-        } as any,
+        },
         resolver: zodResolver(updateTransactionSchema),
     })
 
@@ -222,8 +222,9 @@ export default function EditTransaction({ item, bottomSheetModalRef, onChange }:
 
                         {/* Submit */}
                         <Pressable
-                            className="bg-[#3b82f6] py-4 rounded-xl items-center mt-2"
+                            className={`py-4 rounded-xl items-center mt-2 ${isDirty ? "bg-[#3b82f6]" : "bg-[#3b82f6]/40"}`}
                             onPress={handleSubmit(onSubmit)}
+                            disabled={!isDirty}
                         >
                             <Text className="text-white font-bold text-lg">Save Changes</Text>
                         </Pressable>

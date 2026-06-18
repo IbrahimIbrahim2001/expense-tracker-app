@@ -2,7 +2,7 @@ import { categoryColors, categoryIcons } from '@/lib/constants';
 import { transactionItem } from '@/types/transactions-item';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useMemo, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import EditTransaction from './edit-transaction';
 
@@ -12,15 +12,6 @@ interface TransactionsItemProps {
 
 export default function TransactionsItem({ item }: TransactionsItemProps) {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const [editVisible, setEditVisible] = useState(false);
-
-    useMemo(() => {
-        if (editVisible) {
-            bottomSheetModalRef.current?.present();
-        } else {
-            bottomSheetModalRef.current?.dismiss();
-        }
-    }, [editVisible]);
 
     const iconName = categoryIcons[item.category] ?? "ellipsis-horizontal";
     const bgColor = categoryColors[item.category] ?? "#78716c";
@@ -31,7 +22,7 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
 
     return (
         <>
-            <TouchableOpacity onPress={() => setEditVisible(true)}>
+            <TouchableOpacity onPress={() => bottomSheetModalRef.current?.present()}>
                 <View className='flex flex-row justify-between items-center my-2'>
                     <View className='flex flex-row gap-x-3'>
                         <View className="size-16 rounded-xl items-center justify-center" style={{ backgroundColor: bgColor }}>
@@ -58,7 +49,7 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
                     </View>
                 </View>
             </TouchableOpacity>
-            <EditTransaction item={item} bottomSheetModalRef={bottomSheetModalRef} onChange={(index) => { if (index === -1) setEditVisible(false) }} />
+            <EditTransaction item={item} bottomSheetModalRef={bottomSheetModalRef} />
         </>
     )
 }
