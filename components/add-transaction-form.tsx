@@ -24,7 +24,7 @@ export default function AddTransactionForm() {
     } = useForm<TransactionSchemaType>({
         defaultValues: {
             category: undefined,
-            amount: "",
+            amount: 0,
             type: "expense",
             payment_way: "cash",
         } as any,

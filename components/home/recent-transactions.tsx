@@ -9,7 +9,7 @@ export default function RecentTransactions() {
     const { data: transactions, isLoading, isError } = useTransactions(RECENT_TRANSACTIONS_LIMIT);
 
     return (
-        <View className='gap-y-4'>
+            <View className='gap-y-4'>
             <View className='w-full flex flex-row justify-between items-center'>
                 <Text className='text-white opacity-70 text-md'>Recent Transactions</Text>
                 <Pressable

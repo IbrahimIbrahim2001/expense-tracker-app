@@ -4,6 +4,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -40,6 +41,7 @@ export default function RootLayout() {
     <GestureHandlerRootView className="flex-1">
     <PaperProvider>
       <QueryClientProvider client={queryClient}>
+        <BottomSheetModalProvider>
         <Stack>
           <Stack.Protected guard={isAuthenticated} >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -49,6 +51,7 @@ export default function RootLayout() {
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           </Stack.Protected>
         </Stack>
+        </BottomSheetModalProvider>
       </QueryClientProvider>
     </PaperProvider>
     </GestureHandlerRootView>

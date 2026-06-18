@@ -5,7 +5,6 @@ import { useFilter } from '@/hooks/useFilter';
 import { sortLabels, sortOptions, useSort } from '@/hooks/useSort';
 import { useTransactions } from '@/hooks/useTransactions';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { FlashList } from "@shopify/flash-list";
 import { useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
@@ -28,7 +27,6 @@ export default function TransactionsScreen() {
     const [filterVisible, setFilterVisible] = useState(false);
 
     return (
-        <BottomSheetModalProvider>
             <SafeAreaView className="flex-1 bg-[#2a4b8c]">
                 {isLoading ? (
                     <ActivityIndicator color="#fff" className="flex-1" />
@@ -85,6 +83,5 @@ export default function TransactionsScreen() {
                     </>
                 )}
             </SafeAreaView>
-        </BottomSheetModalProvider>
     );
 }
