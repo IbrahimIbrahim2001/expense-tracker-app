@@ -1,9 +1,11 @@
+import { updateTransaction } from '@/api/update-transaction';
 import { categoryColors, categoryIcons } from '@/lib/constants';
 import { categories, paymentMethods } from '@/schemas/transaction-schema';
 import { transactionItem } from '@/types/transactions-item';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
@@ -26,6 +28,7 @@ interface EditTransactionProps {
 }
 
 export default function EditTransaction({ item, bottomSheetModalRef, onChange }: EditTransactionProps) {
+    const queryClient = useQueryClient()
     const [categoryMenuVisible, setCategoryMenuVisible] = useState(false)
     const [snackbarVisible, setSnackbarVisible] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState("")
@@ -48,7 +51,7 @@ export default function EditTransaction({ item, bottomSheetModalRef, onChange }:
     } = useForm<UpdateTransactionSchemaType>({
         defaultValues: {
             category: item.category,
-            amount: item.amount,
+            amount: String(item.amount),
             type: item.type,
             payment_way: item.payment_way,
         } as any,
@@ -57,10 +60,17 @@ export default function EditTransaction({ item, bottomSheetModalRef, onChange }:
 
     const currentType = watch("type")
 
-    const onSubmit = (data: UpdateTransactionSchemaType) => {
-        console.log("Edit transaction data:", data)
-        setSnackbarMessage("Changes saved (console)")
-        setSnackbarVisible(true)
+    const onSubmit = async (data: UpdateTransactionSchemaType) => {
+        const payload = { ...data, amount: data.amount ? Number(data.amount) : undefined }
+        const res = await updateTransaction(item._id, payload)
+
+        if (res.success) {
+            queryClient.invalidateQueries({ queryKey: ["transactions"] })
+            bottomSheetModalRef.current?.dismiss()
+        } else {
+            setSnackbarMessage(res.message)
+            setSnackbarVisible(true)
+        }
     }
 
     return (
