@@ -1,3 +1,4 @@
+import DeleteAccountButton from '@/components/profile/delete-account-button'
 import EditProfileForm from '@/components/profile/edit-profile-form'
 import ProfileHeader from '@/components/profile/profile-header'
 import ProfileInfo from '@/components/profile/profile-info'
@@ -41,11 +42,13 @@ export default function ProfileScreen() {
                         </Pressable>
 
                         <Pressable
-                            className="bg-red-500 py-4 rounded-xl items-center"
+                            className="bg-red-500 py-4 rounded-xl items-center mb-4"
                             onPress={handleLogout}
                         >
                             <Text className="text-white font-semibold text-lg">Logout</Text>
                         </Pressable>
+
+                        <DeleteAccountButton />
                     </>
                 )}
             </ScrollView>
