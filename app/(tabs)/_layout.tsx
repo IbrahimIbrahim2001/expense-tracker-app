@@ -30,12 +30,12 @@ export default function TabsLayout() {
                 />
                 <Label>Add</Label>
             </NativeTabs.Trigger>
-            <NativeTabs.Trigger name="settings" options={{ title: "Settings" }}>
+            <NativeTabs.Trigger name="profile" options={{ title: "Profile" }}>
                 <Icon
-                    sf={{ default: "gearshape", selected: "gearshape.fill" }}
-                    androidSrc={<VectorIcon family={MaterialCommunityIcons} name="cog" />}
+                    sf={{ default: "person.circle", selected: "person.circle.fill" }}
+                    androidSrc={<VectorIcon family={MaterialCommunityIcons} name="account-circle" />}
                 />
-                <Label>Settings</Label>
+                <Label>Profile</Label>
             </NativeTabs.Trigger>
         </NativeTabs>
     )
