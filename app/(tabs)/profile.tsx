@@ -8,7 +8,7 @@ import { Pressable, ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function ProfileScreen() {
-    const { user, setUser, logout } = useAuthStore()
+    const { user, logout } = useAuthStore()
     const [isEditing, setIsEditing] = useState(false)
 
     if (!user) return null
@@ -16,11 +16,6 @@ export default function ProfileScreen() {
     const handleLogout = () => {
         logout()
         router.replace('/(auth)')
-    }
-
-    const handleSave = (data: { firstName: string; lastName: string; address?: string }) => {
-        setUser({ ...user, ...data })
-        setIsEditing(false)
     }
 
     return (
@@ -31,7 +26,7 @@ export default function ProfileScreen() {
                 {isEditing ? (
                     <EditProfileForm
                         user={user}
-                        onSave={handleSave}
+                        onSuccess={() => setIsEditing(false)}
                         onCancel={() => setIsEditing(false)}
                     />
                 ) : (

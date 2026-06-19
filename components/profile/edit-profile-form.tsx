@@ -1,34 +1,42 @@
+import { updateProfile } from '@/api/update-profile'
+import { profileSchema, ProfileSchemaType } from '@/schemas/profile-schema'
+import { useAuthStore } from '@/store/auth-store'
 import { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Pressable, Text, TextInput, View } from 'react-native'
-import { z } from 'zod'
-
-const profileSchema = z.object({
-    firstName: z.string().min(1, 'Required'),
-    lastName: z.string().min(1, 'Required'),
-    address: z.string().optional(),
-})
-
-type ProfileFormData = z.infer<typeof profileSchema>
+import { Snackbar } from 'react-native-paper'
 
 interface EditProfileFormProps {
     user: User
-    onSave: (data: ProfileFormData) => void
+    onSuccess: () => void
     onCancel: () => void
 }
 
-export default function EditProfileForm({ user, onSave, onCancel }: EditProfileFormProps) {
+export default function EditProfileForm({ user, onSuccess, onCancel }: EditProfileFormProps) {
+    const { setUser } = useAuthStore()
     const { firstName, lastName, address } = user
+    const [snackbar, setSnackbar] = useState({ visible: false, message: '' })
     const {
         control,
         handleSubmit,
-        formState: { errors },
-    } = useForm<ProfileFormData>({
+        formState: { errors, isSubmitting },
+    } = useForm<ProfileSchemaType>({
         defaultValues: { firstName, lastName, address },
         resolver: zodResolver(profileSchema),
     })
+
+    const onSubmit = async (data: ProfileSchemaType) => {
+        const res = await updateProfile(data)
+
+        if (res.success) {
+            setUser({ ...user, ...data })
+            onSuccess()
+        } else {
+            setSnackbar({ visible: true, message: res.message })
+        }
+    }
 
     return (
         <View className="gap-y-5">
@@ -44,7 +52,7 @@ export default function EditProfileForm({ user, onSave, onCancel }: EditProfileF
                             placeholderTextColor="#94a3b8"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={value}
+                            value={value ?? ''}
                         />
                     )}
                 />
@@ -65,7 +73,7 @@ export default function EditProfileForm({ user, onSave, onCancel }: EditProfileF
                             placeholderTextColor="#94a3b8"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={value}
+                            value={value ?? ''}
                         />
                     )}
                 />
@@ -86,7 +94,7 @@ export default function EditProfileForm({ user, onSave, onCancel }: EditProfileF
                             placeholderTextColor="#94a3b8"
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={value}
+                            value={value ?? ''}
                         />
                     )}
                 />
@@ -104,11 +112,22 @@ export default function EditProfileForm({ user, onSave, onCancel }: EditProfileF
                 </Pressable>
                 <Pressable
                     className="flex-1 bg-[#3b82f6] py-4 rounded-xl items-center"
-                    onPress={handleSubmit(onSave)}
+                    onPress={handleSubmit(onSubmit)}
+                    disabled={isSubmitting}
                 >
-                    <Text className="text-white font-bold text-lg">Save</Text>
+                    <Text className="text-white font-bold text-lg">
+                        {isSubmitting ? 'Saving...' : 'Save'}
+                    </Text>
                 </Pressable>
             </View>
+
+            <Snackbar
+                visible={snackbar.visible}
+                onDismiss={() => setSnackbar({ visible: false, message: '' })}
+                duration={2000}
+            >
+                {snackbar.message}
+            </Snackbar>
         </View>
     )
 }
