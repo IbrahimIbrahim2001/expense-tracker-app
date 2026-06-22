@@ -5,14 +5,17 @@ import SortModal from '@/components/sort-modal';
 import { useFilter } from '@/hooks/useFilter';
 import { sortLabels, sortOptions, useSort } from '@/hooks/useSort';
 import { useTransactions } from '@/hooks/useTransactions';
+import { useQueryClient } from '@tanstack/react-query';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
-import { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TransactionsScreen() {
+    const queryClient = useQueryClient()
     const { data: transactions, isLoading, isError } = useTransactions();
+    const [isRefetching, setIsRefetching] = useState(false)
     const {
         filters,
         setFilters,
@@ -26,6 +29,12 @@ export default function TransactionsScreen() {
     const { sorted, sortKey, setSortKey } = useSort(filtered);
     const [sortVisible, setSortVisible] = useState(false);
     const [filterVisible, setFilterVisible] = useState(false);
+
+    const onRefresh = useCallback(async () => {
+        setIsRefetching(true)
+        await queryClient.invalidateQueries({ queryKey: ['transactions'] })
+        setIsRefetching(false)
+    }, [queryClient])
 
     return (
             <SafeAreaView className="flex-1 bg-[#2a4b8c]">
@@ -82,6 +91,9 @@ export default function TransactionsScreen() {
                             data={sorted}
                             renderItem={({ item }) => <TransactionsItem item={item} />}
                             contentContainerClassName="px-4 pb-8"
+                            refreshControl={
+                                <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} tintColor="#fff" />
+                            }
                         />
                     </>
                 )}
