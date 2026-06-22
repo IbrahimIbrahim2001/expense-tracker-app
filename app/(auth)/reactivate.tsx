@@ -1,6 +1,7 @@
+import { requestReactivation } from '@/api/request-reactivation'
 import { reactivationSchema, ReactivationSchemaType } from '@/schemas/reactivation-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from "react-hook-form"
 import { Pressable, Text, TextInput, View } from 'react-native'
@@ -23,10 +24,28 @@ export default function ReactivateScreen() {
     })
 
     const onSubmit = async (data: ReactivationSchemaType) => {
-        console.log("Reactivate account data:", data)
-        setSnackbarMessage("Reactivation link sent to email")
-        setSnackbarVisible(true)
-        reset()
+        try {
+            const res = await requestReactivation(data);
+
+            if (!res.success) {
+                throw new Error(res.message);
+            }
+
+            setSnackbarMessage("Reactivation link sent to your email");
+            setSnackbarVisible(true);
+            reset();
+
+            setTimeout(() => {
+                router.replace("/login");
+            }, 1500);
+        } catch (error) {
+            setSnackbarMessage(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to request reactivation"
+            );
+            setSnackbarVisible(true);
+        }
     }
 
     return (
