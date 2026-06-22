@@ -1,3 +1,4 @@
+import { TransactionListSkeleton } from '@/components/skeletons/transaction-skeleton';
 import FilterBottomSheet from '@/components/filter-bottom-sheet';
 import TransactionsItem from '@/components/home/transactions-item';
 import SortModal from '@/components/sort-modal';
@@ -7,7 +8,7 @@ import { useTransactions } from '@/hooks/useTransactions';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
 import { useState } from 'react';
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TransactionsScreen() {
@@ -29,7 +30,9 @@ export default function TransactionsScreen() {
     return (
             <SafeAreaView className="flex-1 bg-[#2a4b8c]">
                 {isLoading ? (
-                    <ActivityIndicator color="#fff" className="flex-1" />
+                    <View className="px-4 pt-4">
+                        <TransactionListSkeleton count={8} />
+                    </View>
                 ) : isError ? (
                     <Text className="text-red-400 text-center flex-1 pt-20">Failed to load transactions</Text>
                 ) : (

@@ -1,8 +1,9 @@
 import { RECENT_TRANSACTIONS_LIMIT, useTransactions } from '@/hooks/useTransactions';
+import { TransactionListSkeleton } from '@/components/skeletons/transaction-skeleton';
 import { router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
 export default function RecentTransactions() {
@@ -23,7 +24,7 @@ export default function RecentTransactions() {
                 </Pressable>
             </View>
             {isLoading ? (
-                <ActivityIndicator color="#fff" className="py-8" />
+                <TransactionListSkeleton count={5} />
             ) : isError ? (
                 <Text className="text-red-400 text-center py-8">Failed to load transactions</Text>
             ) : (
