@@ -149,6 +149,11 @@ export default function LoginScreen() {
                         </Link>
                     </Text>
                 </View>
+                <View className="items-center mt-auto pb-4">
+                    <Link href="/reactivate" className="text-slate-500 text-xs">
+                        Reactivate your account
+                    </Link>
+                </View>
                 <Snackbar
                     visible={snackbarVisible}
                     onDismiss={() => setSnackbarVisible(false)}

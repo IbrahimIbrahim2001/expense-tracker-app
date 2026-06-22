@@ -2,7 +2,7 @@ import { deleteAccount } from '@/api/delete-account'
 import { useAuthStore } from '@/store/auth-store'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import { ActivityIndicator, Pressable, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, Text } from 'react-native'
 import { Button, Dialog, Portal } from 'react-native-paper'
 
 export default function DeleteAccountButton() {
