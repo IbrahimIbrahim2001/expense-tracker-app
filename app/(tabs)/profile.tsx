@@ -3,6 +3,7 @@ import EditProfileForm from '@/components/profile/edit-profile-form'
 import ProfileHeader from '@/components/profile/profile-header'
 import ProfileInfo from '@/components/profile/profile-info'
 import { useAuthStore } from '@/store/auth-store'
+import Ionicons from '@expo/vector-icons/Ionicons'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { Pressable, ScrollView, Text } from 'react-native'
@@ -21,7 +22,7 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-[#2a4b8c]">
-            <ScrollView className="flex-1" contentContainerClassName="p-5 pb-12">
+            <ScrollView className="flex-1" contentContainerClassName="p-5 pb-24">
                 <ProfileHeader user={user} />
 
                 {isEditing ? (
@@ -39,6 +40,14 @@ export default function ProfileScreen() {
                             onPress={() => setIsEditing(true)}
                         >
                             <Text className="text-white font-semibold text-lg">Edit Profile</Text>
+                        </Pressable>
+
+                        <Pressable
+                            className="flex-row items-center justify-center bg-white/10 py-4 rounded-xl mb-4"
+                            onPress={() => router.push('/change-password' as any)}
+                        >
+                            <Ionicons name="lock-closed-outline" size={20} color="white" />
+                            <Text className="text-white font-semibold text-lg ml-2">Change Password</Text>
                         </Pressable>
 
                         <Pressable
