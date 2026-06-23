@@ -1,4 +1,6 @@
+import { changePassword } from '@/api/change-password'
 import { changePasswordSchema, ChangePasswordSchemaType } from '@/schemas/change-password-schema'
+import { saveToken } from '@/lib/token'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
@@ -26,10 +28,19 @@ export default function ChangePasswordScreen() {
     const watchNew = useWatch({ control, name: 'newPassword' })
     const watchConfirm = useWatch({ control, name: 'confirmPassword' })
 
-    const onSubmit = async (_data: ChangePasswordSchemaType) => {
-        // TODO: call change password API
-        setSnackbar({ visible: true, message: 'Password changed successfully' })
-        reset()
+    const onSubmit = async (data: ChangePasswordSchemaType) => {
+        const res = await changePassword({
+            currentPassword: data.currentPassword,
+            newPassword: data.newPassword,
+        })
+
+        if (res.success) {
+            await saveToken(res.data.token)
+            setSnackbar({ visible: true, message: res.message })
+            reset()
+        } else {
+            setSnackbar({ visible: true, message: res.message })
+        }
     }
 
     return (
