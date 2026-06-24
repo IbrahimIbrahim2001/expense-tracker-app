@@ -1,8 +1,9 @@
 import { getTransactions } from "@/api/get-transactions";
 import { transactionItem } from "@/types/transactions-item";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const RECENT_TRANSACTIONS_LIMIT = 5
+const PAGE_SIZE = 20
 
 export const useTransactions = (limit?: number) => {
     return useQuery<transactionItem[]>({
@@ -14,10 +15,41 @@ export const useTransactions = (limit?: number) => {
                 throw new Error(res.message);
             }
 
-            return (res.data ?? []).map((item) => ({
+            const items = Array.isArray(res.data) ? res.data : (res.data as any)?.data ?? []
+            return (items as transactionItem[]).map((item) => ({
                 ...item,
                 createdAt: new Date(item.createdAt),
             }));
         },
+    });
+};
+
+interface PageData {
+    items: transactionItem[]
+    nextCursor: string | null
+}
+
+export const useTransactionsInfinite = () => {
+    return useInfiniteQuery<PageData>({
+        queryKey: ["transactions", "infinite"],
+        queryFn: async ({ pageParam }) => {
+            const res = await getTransactions(PAGE_SIZE, pageParam as string | undefined);
+
+            if (!res.success || !res.data) {
+                throw new Error(res.message ?? "Failed to load transactions");
+            }
+
+            const page = res.data as { data: transactionItem[]; nextCursor: string | null; hasMore: boolean }
+
+            return {
+                items: (page.data ?? []).map((item) => ({
+                    ...item,
+                    createdAt: new Date(item.createdAt),
+                })),
+                nextCursor: page.nextCursor,
+            };
+        },
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     });
 };

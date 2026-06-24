@@ -1,9 +1,8 @@
 import { getToken } from "@/lib/token";
-import { transactionItem } from "@/types/transactions-item";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const getTransactions = async (limit?: number) => {
+export const getTransactions = async (limit?: number, cursor?: string) => {
     try {
         const token = await getToken();
 
@@ -15,7 +14,14 @@ export const getTransactions = async (limit?: number) => {
             };
         }
 
-        const url = limit ? `${API_URL}/api/transactions?limit=${limit}` : `${API_URL}/api/transactions`
+        const params = new URLSearchParams()
+        if (limit) params.append('limit', String(limit))
+        if (cursor) params.append('cursor', cursor)
+
+        const url = params.toString()
+            ? `${API_URL}/api/transactions?${params}`
+            : `${API_URL}/api/transactions`
+
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -28,7 +34,7 @@ export const getTransactions = async (limit?: number) => {
 
         return {
             success: response.ok,
-            data: result as transactionItem[],
+            data: result,
             message: result.message ?? "Fetched transactions",
         };
     } catch (error) {
