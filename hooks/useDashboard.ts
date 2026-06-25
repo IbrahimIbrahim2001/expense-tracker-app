@@ -1,12 +1,12 @@
 import { getDashboard } from "@/api/get-dashboard"
-import { dashboard } from "@/types/dashboard"
+import { dashboard, type DashboardPeriod } from "@/types/dashboard"
 import { useQuery } from "@tanstack/react-query"
 
-export const useDashboard = () => {
+export const useDashboard = (period?: Exclude<DashboardPeriod, "all">) => {
     return useQuery<dashboard>({
-        queryKey: ["dashboard"],
+        queryKey: ["dashboard", period],
         queryFn: async () => {
-            const res = await getDashboard();
+            const res = await getDashboard(period);
 
             if (!res.success) {
                 throw new Error(res.message);

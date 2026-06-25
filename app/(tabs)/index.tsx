@@ -1,4 +1,4 @@
-import FilterSection from '@/components/home/filter-section';
+import FilterSection, { type FilterPeriod, periodMap } from '@/components/home/filter-section';
 import Header from '@/components/home/header';
 import IncomeAndSpentChart from '@/components/home/income-and-spent-chart';
 import RecentTransactions from '@/components/home/recent-transactions';
@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen() {
     const queryClient = useQueryClient()
     const [isRefetching, setIsRefetching] = useState(false)
+    const [period, setPeriod] = useState<FilterPeriod>("All")
 
     const onRefresh = useCallback(async () => {
         setIsRefetching(true)
@@ -17,6 +18,8 @@ export default function HomeScreen() {
         await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
         setIsRefetching(false)
     }, [queryClient])
+
+    const periodParam = periodMap[period]
 
     return (
         <SafeAreaView className="flex-1 bg-[#2a4b8c]">
@@ -29,8 +32,8 @@ export default function HomeScreen() {
                 }
             >
                 <Header />
-                <FilterSection />
-                <IncomeAndSpentChart />
+                <FilterSection selected={period} onSelect={setPeriod} />
+                <IncomeAndSpentChart period={periodParam} />
                 <RecentTransactions />
             </ScrollView>
         </SafeAreaView >

@@ -1,10 +1,11 @@
 import { useDashboard } from '@/hooks/useDashboard';
+import { type DashboardPeriod } from '@/types/dashboard';
 import { PieChart } from 'react-native-gifted-charts';
 import { Text, View } from 'react-native';
 import { SkeletonBlock } from '../skeletons/transaction-skeleton';
 
-export default function IncomeAndSpentChart() {
-    const { data, isLoading, isError } = useDashboard();
+export default function IncomeAndSpentChart({ period }: { period?: Exclude<DashboardPeriod, "all"> }) {
+    const { data, isLoading, isError } = useDashboard(period);
 
     if (isLoading) {
         return (

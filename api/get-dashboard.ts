@@ -1,8 +1,9 @@
+import { type DashboardPeriod } from "@/types/dashboard";
 import { getToken } from "@/lib/token";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const getDashboard = async () => {
+export const getDashboard = async (period?: Exclude<DashboardPeriod, "all">) => {
     try {
         const token = await getToken();
 
@@ -14,7 +15,8 @@ export const getDashboard = async () => {
             };
         }
 
-        const response = await fetch(`${API_URL}/api/dashboard/summary`, {
+        const url = period ? `${API_URL}/api/dashboard/summary?period=${period}` : `${API_URL}/api/dashboard/summary`
+        const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
