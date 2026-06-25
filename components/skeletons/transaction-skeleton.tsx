@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Animated, View } from 'react-native'
 
-function SkeletonBlock({ className }: { className: string }) {
+export function SkeletonBlock({ className }: { className: string }) {
     const opacity = useRef(new Animated.Value(0.3))
 
     useEffect(() => {
