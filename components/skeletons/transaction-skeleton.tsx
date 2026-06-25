@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Animated, View } from 'react-native'
 
 export function SkeletonBlock({ className }: { className: string }) {
-    const opacity = useRef(new Animated.Value(0.3))
+    const opacity = useRef(new Animated.Value(0.5))
 
     useEffect(() => {
         const animation = Animated.loop(
@@ -13,7 +13,7 @@ export function SkeletonBlock({ className }: { className: string }) {
                     useNativeDriver: true,
                 }),
                 Animated.timing(opacity.current, {
-                    toValue: 0.3,
+                    toValue: 0.5,
                     duration: 800,
                     useNativeDriver: true,
                 }),
@@ -25,7 +25,7 @@ export function SkeletonBlock({ className }: { className: string }) {
 
     return (
         <Animated.View
-            className={`rounded-lg bg-white/20 ${className}`}
+            className={`rounded-lg bg-white/30 ${className}`}
             style={{ opacity: opacity.current }}
         />
     )

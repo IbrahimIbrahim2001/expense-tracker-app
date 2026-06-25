@@ -14,6 +14,7 @@ export default function HomeScreen() {
     const onRefresh = useCallback(async () => {
         setIsRefetching(true)
         await queryClient.invalidateQueries({ queryKey: ['transactions'] })
+        await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
         setIsRefetching(false)
     }, [queryClient])
 

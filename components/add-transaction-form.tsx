@@ -39,6 +39,7 @@ export default function AddTransactionForm() {
             setSnackbarMessage(res.message)
             setSnackbarVisible(true)
             queryClient.invalidateQueries({ queryKey: ["transactions"] })
+            queryClient.invalidateQueries({ queryKey: ["dashboard"] })
             reset()
             setSelectedType("expense")
         } else {
