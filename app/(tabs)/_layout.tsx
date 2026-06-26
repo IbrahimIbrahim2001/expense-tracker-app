@@ -12,8 +12,7 @@ export default function TabsLayout() {
                 />
 
             </NativeTabs.Trigger>
-            <NativeTabs.Trigger
-                name="add-transaction"
+            <NativeTabs.Trigger name="add-transaction"
                 options={{ title: "Add", }}
             >
                 <Icon
@@ -29,6 +28,13 @@ export default function TabsLayout() {
                     }
                 />
                 <Label>Add</Label>
+            </NativeTabs.Trigger>
+            <NativeTabs.Trigger name="budget" options={{ title: "Budget" }}>
+                <Icon
+                    sf={{ default: "wallet.pass", selected: "wallet.pass.fill" }}
+                    androidSrc={<VectorIcon family={MaterialCommunityIcons} name="wallet" />}
+                />
+                <Label>Budget</Label>
             </NativeTabs.Trigger>
             <NativeTabs.Trigger name="profile" options={{ title: "Profile" }}>
                 <Icon
