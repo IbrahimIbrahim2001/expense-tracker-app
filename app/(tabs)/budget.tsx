@@ -1,4 +1,5 @@
-import { SkeletonBlock } from '@/components/skeletons/transaction-skeleton'
+import { BudgetSkeleton } from '@/components/skeletons/budget-skeleton'
+import BudgetItem from '@/components/budget/budget-item'
 import { useBudgets } from '@/hooks/useBudgets'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { FlashList } from '@shopify/flash-list'
@@ -8,19 +9,6 @@ import { useCallback, useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-function BudgetSkeleton() {
-    return (
-        <View className="bg-[#162544] rounded-2xl p-5 mb-4">
-            <SkeletonBlock className="h-5 w-24 mb-3" />
-            <View className="flex-row justify-between mb-2">
-                <SkeletonBlock className="h-4 w-16" />
-                <SkeletonBlock className="h-4 w-16" />
-            </View>
-            <SkeletonBlock className="h-2 w-full rounded-full mt-2" />
-        </View>
-    )
-}
 
 export default function BudgetScreen() {
      const queryClient = useQueryClient()
@@ -65,32 +53,7 @@ export default function BudgetScreen() {
                         <FlashList
                             data={budgets}
                             showsVerticalScrollIndicator={false}
-                            renderItem={({ item }) => {
-                                const barColor = item.percentage > 80 ? '#ef4444' : item.percentage > 50 ? '#f59e0b' : '#22c55e'
-                                return (
-                                    <View className="bg-[#162544] rounded-2xl p-5 mb-4">
-                                        <Text className="text-white text-lg font-semibold capitalize mb-3">{item.category}</Text>
-                                        <View className="flex-row justify-between mb-1">
-                                            <Text className="text-white/60 text-sm">Spent: ${item.spent}</Text>
-                                            <Text className="text-white/60 text-sm">Limit: ${item.limit}</Text>
-                                        </View>
-                                        <View className="h-2 bg-white/10 rounded-full mt-2 overflow-hidden">
-                                            <View
-                                                className="h-full rounded-full"
-                                                style={{ width: `${Math.min(item.percentage, 100)}%`, backgroundColor: barColor }}
-                                            />
-                                        </View>
-                                        <View className="flex-row justify-between mt-2">
-                                            <Text className="text-white/60 text-xs">
-                                                {item.percentage}% used
-                                            </Text>
-                                            <Text className="text-white/80 text-xs font-semibold">
-                                                ${item.remaining} remaining
-                                            </Text>
-                                        </View>
-                                    </View>
-                                )
-                            }}
+                            renderItem={({ item }) => <BudgetItem item={item} />}
                         />
                 </ScrollView>
                 )}
