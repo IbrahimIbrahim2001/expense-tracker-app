@@ -22,7 +22,7 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-[#2a4b8c]">
-            <ScrollView className="flex-1" contentContainerClassName="p-5 pb-24">
+            <ScrollView className="flex-1" contentContainerClassName="p-5 pb-28">
                 <ProfileHeader user={user} />
 
                 {isEditing ? (

@@ -3,7 +3,9 @@ import { Icon, Label, NativeTabs, VectorIcon } from 'expo-router/unstable-native
 export default function TabsLayout() {
     return (
         <NativeTabs backgroundColor={"#162544"} tintColor="#ff8c42"
-        >
+        minimizeBehavior="onScrollDown"
+        labelVisibilityMode="labeled"
+                >
             <NativeTabs.Trigger name="index" options={{ title: "Home" }}>
                 <Label>Home</Label>
                 <Icon
@@ -13,26 +15,26 @@ export default function TabsLayout() {
 
             </NativeTabs.Trigger>
             <NativeTabs.Trigger name="add-transaction"
-                options={{ title: "Add", }}
+                options={{ title: "Transaction", }}
             >
                 <Icon
                     sf={{
-                        default: "plus.circle",
-                        selected: "plus.circle.fill",
+                        default: "creditcard.and.123",
+                        selected: "creditcard.and.123",
                     }}
                     androidSrc={
                         <VectorIcon
                             family={MaterialCommunityIcons}
-                            name="plus-circle"
+                            name="credit-card-plus-outline"
                         />
                     }
                 />
-                <Label>Add</Label>
+                <Label>Transaction</Label>
             </NativeTabs.Trigger>
             <NativeTabs.Trigger name="budget" options={{ title: "Budget" }}>
                 <Icon
-                    sf={{ default: "wallet.pass", selected: "wallet.pass.fill" }}
-                    androidSrc={<VectorIcon family={MaterialCommunityIcons} name="wallet" />}
+                    sf={{ default: "chart.pie", selected: "chart.pie.fill" }}
+                    androidSrc={<VectorIcon family={MaterialCommunityIcons} name="chart-pie" />}
                 />
                 <Label>Budget</Label>
             </NativeTabs.Trigger>

@@ -47,6 +47,7 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="transactions" options={{ headerStyle: { backgroundColor: "#162544" }, headerTintColor: "#fff", headerTitle: "Transactions", animation: "slide_from_right" }} />
             <Stack.Screen name="change-password" options={{ headerStyle: { backgroundColor: "#162544" }, headerTintColor: "#fff", headerTitle: "Change Password", animation: "slide_from_right" }} />
+            <Stack.Screen name="create-budget" options={{ headerStyle: { backgroundColor: "#162544" }, headerTintColor: "#fff", headerTitle: "Create Budget", animation: "slide_from_right" }} />
           </Stack.Protected>
           <Stack.Protected guard={!isAuthenticated}>
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
