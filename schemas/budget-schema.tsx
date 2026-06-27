@@ -6,4 +6,9 @@ export const budgetSchema = z.object({
     limit: z.string().min(1, "Limit is required").regex(/^\d+(\.\d{1,2})?$/, "Invalid amount"),
 })
 
+export const updateBudgetSchema = z.object({
+    limit: z.string().min(1, "Limit is required").regex(/^\d+(\.\d{1,2})?$/, "Invalid amount"),
+})
+
 export type BudgetSchemaType = z.infer<typeof budgetSchema>
+export type UpdateBudgetSchemaType = z.infer<typeof updateBudgetSchema>
