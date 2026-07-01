@@ -40,6 +40,20 @@
           }
         }
       ],
+     [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you update the avatar.",
+          "colors": {
+            "cropToolbarColor": "#000000"
+          },
+          "dark": {
+            "colors": {
+              "cropToolbarColor": "#000000"
+            }
+          }
+        }
+      ],
       "expo-secure-store"
     ],
     "experiments": {
