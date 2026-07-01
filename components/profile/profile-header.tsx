@@ -1,4 +1,5 @@
 import { User } from '@/types/user';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -15,20 +16,21 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
     const avatarUrl = avatar?.startsWith('http') ? avatar : `${API_URL}${avatar}`;
 
     return (
-        <View className="items-center mb-10 mt-5">
+        <View className="items-center mb-10 mt-5 ">
+            <View className="size-24 rounded-full bg-primary-500 items-center justify-center mb-4 overflow-hidden relative">
             {avatar ? (
-                <View className="size-24 rounded-full mb-4 overflow-hidden">
                     <Image
                         source={{ uri: avatarUrl }}
                         style={{ width: 96, height: 96 }}
                         contentFit="cover"
                     />
-                </View>
-            ) : (
-                <View className="w-24 h-24 rounded-full bg-primary-500 items-center justify-center mb-4">
+                ) : (
                     <Text className="text-4xl font-bold text-white">{initial}</Text>
-                </View>
             )}
+                <View className="absolute bottom-0 right-0 bg-[#2a4b8c] rounded-full p-1">
+                    <Ionicons name="camera" size={14} color="white" />
+                </View>
+            </View>
             <Text className="text-2xl font-bold text-white">
                 {firstName || ''} {lastName || ''}
             </Text>
