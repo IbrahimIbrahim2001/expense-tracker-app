@@ -1,15 +1,22 @@
 import { initializeAuthSession } from '@/lib/initialize-auth-session';
 import { useAuthStore } from '@/store/auth-store';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from "react-native-paper";
+import * as Sentry from '@sentry/react-native';
 import "./global.css";
+
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
+
 export default function RootLayout() {
   const queryClient = new QueryClient()
 

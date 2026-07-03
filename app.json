@@ -67,7 +67,8 @@
           "enableBackgroundRemoteNotifications": false
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "sentry-expo"
     ],
     "experiments": {
       "typedRoutes": true,
