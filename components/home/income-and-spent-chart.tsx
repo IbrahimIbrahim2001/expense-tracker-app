@@ -1,11 +1,25 @@
 import { useDashboard } from '@/hooks/useDashboard';
+import { useNotifications } from '@/hooks/useNotifications';
 import { type DashboardPeriod } from '@/types/dashboard';
-import { PieChart } from 'react-native-gifted-charts';
+import { useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { PieChart } from 'react-native-gifted-charts';
 import { SkeletonBlock } from '../skeletons/transaction-skeleton';
 
 export default function IncomeAndSpentChart({ period }: { period?: Exclude<DashboardPeriod, "all"> }) {
     const { data, isLoading, isError } = useDashboard(period);
+    const {schedulePushNotification} = useNotifications();
+
+        useEffect(() => {
+        if (data && data.income > 0 && data.expense > data.income) {
+            schedulePushNotification({
+                title: "High Expenses Alert",
+                body: `Your expenses (${data.expense.toLocaleString()}$) have exceeded your income (${data.income.toLocaleString()}$) this period.`,
+                data: { type: "high_expense_alert" },
+                trigger: { seconds: 5 }
+            });
+        }
+    }, [data, schedulePushNotification]);
 
     if (isLoading) {
         return (
