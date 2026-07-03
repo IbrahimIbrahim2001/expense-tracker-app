@@ -78,12 +78,18 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
+export interface NotificationItem {
+    id: string;
+    title: string;
+    body: string;
+    data: any;
+    receivedAt: Date;
+}
+
 export const useNotifications = () => {
     const [expoPushToken, setExpoPushToken] = useState('');
   const [channels, setChannels] = useState<Notifications.NotificationChannel[]>([]);
-  const [notification, setNotification] = useState<Notifications.Notification | undefined>(
-    undefined
-  );
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
    useEffect(() => {
     registerForPushNotificationsAsync().then(token => token && setExpoPushToken(token));
 
@@ -91,7 +97,13 @@ export const useNotifications = () => {
       Notifications.getNotificationChannelsAsync().then(value => setChannels(value ?? []));
     }
     const notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
+        setNotifications(prev => [{
+            id: notification.request.identifier,
+            title: notification.request.content.title || '',
+            body: notification.request.content.body || '',
+            data: notification.request.content.data,
+            receivedAt: new Date(notification.date),
+        }, ...prev]);
     });
 
     const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
@@ -104,5 +116,5 @@ export const useNotifications = () => {
     };
   }, []);
 
-  return { expoPushToken, channels, notification, schedulePushNotification };
-}
+  return { expoPushToken, channels, notifications, schedulePushNotification, setNotifications };
+};

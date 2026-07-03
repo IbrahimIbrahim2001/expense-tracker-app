@@ -1,6 +1,7 @@
 import { useAuthStore } from '@/store/auth-store';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, Text, View } from 'react-native';
 
 export default function Header() {
     const user = useAuthStore(s => s.user);
@@ -16,9 +17,9 @@ export default function Header() {
                 </Text>
             </View>
             {/* Icon section */}
-            <View className="p-3 rounded-full border border-primary-500/40" >
+            <Pressable className="p-3 rounded-full border border-primary-500/40" onPress={() => router.push("/notifications")}>
                 <Ionicons name="notifications" size={20} color={"white"} className='border-white' />
-            </View>
+            </Pressable>
         </View>
     )
 }
