@@ -1,11 +1,12 @@
-import { BudgetSkeleton } from '@/components/skeletons/budget-skeleton'
 import BudgetItem from '@/components/budget/budget-item'
+import { BudgetSkeleton } from '@/components/skeletons/budget-skeleton'
 import { useBudgets } from '@/hooks/useBudgets'
+import { useNotifications } from '@/hooks/useNotifications'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { FlashList } from '@shopify/flash-list'
 import { useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,6 +15,23 @@ export default function BudgetScreen() {
      const queryClient = useQueryClient()
      const [isRefetching, setIsRefetching] = useState(false)
     const { data: budgets, isLoading, isError } = useBudgets()
+    const { schedulePushNotification } = useNotifications()
+    const notifiedBudgetIds = useRef<Set<string>>(new Set())
+
+    useEffect(() => {
+        if (!budgets) return;
+
+        for (const budget of budgets) {
+            if (budget.percentage >= 90 && !notifiedBudgetIds.current.has(budget.id)) {
+                notifiedBudgetIds.current.add(budget.id);
+                schedulePushNotification({
+                    title: 'Budget Alert',
+                    body: `${budget.category} budget is at ${budget.percentage}% — nearly reached!`,
+                    data: { budgetId: budget.id },
+                });
+            }
+        }
+    }, [budgets, schedulePushNotification]);
 
     const onRefresh = useCallback(async () => {
            setIsRefetching(true)
