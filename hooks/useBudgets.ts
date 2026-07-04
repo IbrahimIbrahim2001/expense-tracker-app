@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 export const useBudgets = () => {
     return useQuery<budget[]>({
         queryKey: ["budgets"],
-        queryFn: async () => {
+        queryFn: async () : Promise<budget[]> => {
             const res = await getBudgets();
 
             if (!res.success) {
@@ -14,5 +14,6 @@ export const useBudgets = () => {
 
             return res.data
         }
-    })
+    }
+)
 }

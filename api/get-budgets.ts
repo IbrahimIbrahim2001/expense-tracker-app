@@ -1,8 +1,9 @@
 import { getToken } from "@/lib/token";
+import { budget } from "@/types/budget";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const getBudgets = async () => {
+export const getBudgets = async () : Promise<{ success: boolean; message: string; data: budget[]}> => {
     try {
         const token = await getToken();
 
@@ -10,7 +11,7 @@ export const getBudgets = async () => {
             return {
                 success: false,
                 message: "Not authenticated",
-                data: null,
+                data: [],
             };
         }
 
@@ -26,7 +27,7 @@ export const getBudgets = async () => {
 
         return {
             success: response.ok,
-            data: result,
+            data: result as budget[],
             message: result.message ?? "Fetched budgets",
         };
     } catch (error) {
@@ -35,7 +36,7 @@ export const getBudgets = async () => {
         return {
             success: false,
             message: "Network request failed",
-            data: null,
+            data: [],
         };
     }
 };
