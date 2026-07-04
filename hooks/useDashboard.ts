@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 export const useDashboard = (period?: Exclude<DashboardPeriod, "all">) => {
     return useQuery<dashboard>({
         queryKey: ["dashboard", period],
-        queryFn: async () => {
+        queryFn: async () : Promise<dashboard> => {
             const res = await getDashboard(period);
 
             if (!res.success) {

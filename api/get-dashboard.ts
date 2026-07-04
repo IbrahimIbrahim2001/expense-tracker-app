@@ -1,9 +1,9 @@
-import { type DashboardPeriod } from "@/types/dashboard";
 import { getToken } from "@/lib/token";
+import { dashboard, type DashboardPeriod } from "@/types/dashboard";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const getDashboard = async (period?: Exclude<DashboardPeriod, "all">) => {
+export const getDashboard = async (period?: Exclude<DashboardPeriod, "all">) : Promise<{ success: boolean; data: dashboard, message: string }> => {
     try {
         const token = await getToken();
 
@@ -11,7 +11,7 @@ export const getDashboard = async (period?: Exclude<DashboardPeriod, "all">) => 
             return {
                 success: false,
                 message: "Not authenticated",
-                data: null,
+                data: { period: "all", income: 0, expense: 0, balance: 0, totalTransactions: 0 },
             };
         }
 
@@ -37,7 +37,7 @@ export const getDashboard = async (period?: Exclude<DashboardPeriod, "all">) => 
         return {
             success: false,
             message: "Network request failed",
-            data: null,
+            data: {} as dashboard,
         };
     }
 };
