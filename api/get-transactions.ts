@@ -1,8 +1,14 @@
 import { getToken } from "@/lib/token";
+import { transactionItem } from "@/types/transactions-item";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export const getTransactions = async (limit?: number, cursor?: string) => {
+export interface PageData {
+    items: transactionItem[]
+    nextCursor: string | null
+}
+
+export const getTransactions = async (limit?: number, cursor?: string): Promise<{ success: boolean; data: transactionItem[] | PageData; message: string }> => {
     try {
         const token = await getToken();
 
@@ -10,7 +16,7 @@ export const getTransactions = async (limit?: number, cursor?: string) => {
             return {
                 success: false,
                 message: "Not authenticated",
-                data: null,
+                data: [],
             };
         }
 
@@ -43,7 +49,7 @@ export const getTransactions = async (limit?: number, cursor?: string) => {
         return {
             success: false,
             message: "Network request failed",
-            data: null,
+            data: [],
         };
     }
 };

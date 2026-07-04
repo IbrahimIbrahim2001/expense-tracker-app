@@ -24,7 +24,7 @@ export const useTransactions = (limit?: number) => {
     });
 };
 
-interface PageData {
+export interface PageData {
     items: transactionItem[]
     nextCursor: string | null
 }
@@ -32,14 +32,14 @@ interface PageData {
 export const useTransactionsInfinite = () => {
     return useInfiniteQuery<PageData>({
         queryKey: ["transactions", "infinite"],
-        queryFn: async ({ pageParam }) => {
+        queryFn: async ({ pageParam }): Promise<PageData> => {
             const res = await getTransactions(PAGE_SIZE, pageParam as string | undefined);
 
             if (!res.success || !res.data) {
                 throw new Error(res.message ?? "Failed to load transactions");
             }
 
-            const page = res.data as { data: transactionItem[]; nextCursor: string | null; hasMore: boolean }
+            const page = res.data as unknown as { data: transactionItem[]; nextCursor: string | null; hasMore: boolean }
 
             return {
                 items: (page.data ?? []).map((item) => ({
