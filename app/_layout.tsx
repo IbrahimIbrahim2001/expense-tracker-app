@@ -1,15 +1,17 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeAuthSession } from '@/lib/initialize-auth-session';
 import { useAuthStore } from '@/store/auth-store';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import * as Sentry from '@sentry/react-native';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import {
-  QueryClient,
-  QueryClientProvider,
+  QueryClient
 } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from "react-native-paper";
-import * as Sentry from '@sentry/react-native';
 import "./global.css";
 
 Sentry.init({
@@ -18,7 +20,17 @@ Sentry.init({
 });
 
 export default function RootLayout() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+     defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+  })
+
+  const persister = createAsyncStoragePersister({
+  storage: AsyncStorage,
+})
 
   SplashScreen.preventAutoHideAsync();
 
@@ -47,7 +59,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView className="flex-1">
     <PaperProvider>
-      <QueryClientProvider client={queryClient}>
+      <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
         <BottomSheetModalProvider>
         <Stack>
           <Stack.Protected guard={isAuthenticated} >
@@ -62,7 +74,7 @@ export default function RootLayout() {
           </Stack.Protected>
         </Stack>
         </BottomSheetModalProvider>
-      </QueryClientProvider>
+      </PersistQueryClientProvider>
     </PaperProvider>
     </GestureHandlerRootView>
   )

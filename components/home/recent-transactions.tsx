@@ -1,8 +1,8 @@
-import { RECENT_TRANSACTIONS_LIMIT, useTransactions } from '@/hooks/useTransactions';
 import { TransactionListSkeleton } from '@/components/skeletons/transaction-skeleton';
-import { router } from 'expo-router';
+import { RECENT_TRANSACTIONS_LIMIT, useTransactions } from '@/hooks/useTransactions';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlashList } from "@shopify/flash-list";
+import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import TransactionsItem from './transactions-item';
 
