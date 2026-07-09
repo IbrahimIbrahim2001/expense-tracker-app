@@ -19,7 +19,11 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.ibrahim255.expensetrackerapp"
     },
     "web": {
       "output": "static",
@@ -40,7 +44,7 @@
           }
         }
       ],
-     [
+      [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you update the avatar.",
@@ -67,6 +71,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "96931653-960f-4989-a8b9-27b1c3b9d93c"
+      }
     }
   }
 }
