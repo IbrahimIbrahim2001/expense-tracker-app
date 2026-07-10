@@ -5,6 +5,11 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 export const RECENT_TRANSACTIONS_LIMIT = 5
 const PAGE_SIZE = 20
 
+const normalizeItem = (item: transactionItem): transactionItem => ({
+    ...item,
+    createdAt: new Date(item.createdAt),
+});
+
 export const useTransactions = (limit?: number) => {
     return useQuery<transactionItem[]>({
         queryKey: ["transactions", limit],
@@ -16,11 +21,9 @@ export const useTransactions = (limit?: number) => {
             }
 
             const items = Array.isArray(res.data) ? res.data : (res.data as any)?.data ?? []
-            return (items as transactionItem[]).map((item) => ({
-                ...item,
-                createdAt: new Date(item.createdAt),
-            }));
+            return (items as transactionItem[]).map(normalizeItem);
         },
+        select: (data) => data.map(normalizeItem),
     });
 };
 
@@ -42,14 +45,18 @@ export const useTransactionsInfinite = () => {
             const page = res.data as unknown as { data: transactionItem[]; nextCursor: string | null; hasMore: boolean }
 
             return {
-                items: (page.data ?? []).map((item) => ({
-                    ...item,
-                    createdAt: new Date(item.createdAt),
-                })),
+                items: (page.data ?? []).map(normalizeItem),
                 nextCursor: page.nextCursor,
             };
         },
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+        select: (data) => ({
+            ...data,
+            pages: data.pages.map((page) => ({
+                ...page,
+                items: page.items.map(normalizeItem),
+            })),
+        }),
     });
 };

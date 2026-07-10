@@ -52,7 +52,7 @@ export const useSort = (transactions: transactionItem[] | undefined) => {
                 break;
             case 'date':
             default:
-                copy.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+                copy.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
                 break;
         }
         return copy;
